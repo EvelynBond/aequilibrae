@@ -1,8 +1,6 @@
 import multiprocessing as mp
 import sys
 
-from aequilibrae.paths.AoN import connectivity_multi_threaded
-
 from aequilibrae.utils.core_setter import set_cores
 from aequilibrae.utils.aeq_signal import SIGNAL
 
@@ -51,6 +49,7 @@ class ConnectivityAnalysis:
 
     def execute(self):
         """Runs the skimming process as specified in the graph"""
+        from aequilibrae.paths.AoN import connectivity_multi_threaded # Delay import
 
         self.disconnected_pairs = connectivity_multi_threaded(self)
         self.disconnected_pairs = self.disconnected_pairs.sort_values(["origin", "destination"])
