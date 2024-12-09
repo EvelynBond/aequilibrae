@@ -6,10 +6,6 @@ from tempfile import gettempdir
 from typing import List, Dict
 
 import numpy as np
-from aequilibrae.paths.AoN import copy_two_dimensions, copy_three_dimensions
-from aequilibrae.paths.AoN import linear_combination, linear_combination_skims, aggregate_link_costs
-from aequilibrae.paths.AoN import sum_a_times_b_minus_c, linear_combination_1d
-from aequilibrae.paths.AoN import triple_linear_combination, triple_linear_combination_skims
 from scipy.optimize import root_scalar
 
 from aequilibrae.paths.all_or_nothing import allOrNothing
@@ -218,6 +214,11 @@ class LinearApproximation(WorkerThread):
 
     def __calculate_step_direction(self):
         """Calculates step direction depending on the method"""
+        # Delay imports
+        from aequilibrae.paths.AoN import copy_two_dimensions, copy_three_dimensions
+        from aequilibrae.paths.AoN import linear_combination, linear_combination_skims
+        from aequilibrae.paths.AoN import triple_linear_combination, triple_linear_combination_skims
+
         sd_flows = []
 
         # 2nd iteration is a fw step. if the previous step replaced the aggregated
@@ -413,6 +414,10 @@ class LinearApproximation(WorkerThread):
         self.execute()
 
     def execute(self):  # noqa: C901
+        # Delay imports
+        from aequilibrae.paths.AoN import copy_two_dimensions, copy_three_dimensions
+        from aequilibrae.paths.AoN import linear_combination, linear_combination_skims, aggregate_link_costs
+
         # We build the fixed cost field
 
         self.sl_step_dir_ll = {}
@@ -634,6 +639,8 @@ class LinearApproximation(WorkerThread):
     def __derivative_of_objective_stepsize_dependent(self, stepsize, const_term):
         """The stepsize-dependent part of the derivative of the objective function. If fixed costs are defined,
         the corresponding contribution needs to be passed in"""
+        from aequilibrae.paths.AoN import sum_a_times_b_minus_c, linear_combination_1d # Delay import
+
         x = np.zeros_like(self.fw_total_flow)
         linear_combination_1d(x, self.step_direction_flow, self.fw_total_flow, stepsize, self.cores)
         # x = self.fw_total_flow + stepsize * (self.step_direction_flow - self.fw_total_flow)
@@ -646,6 +653,8 @@ class LinearApproximation(WorkerThread):
     def __derivative_of_objective_stepsize_independent(self):
         """The part of the derivative of the objective function that does not dependent on stepsize. Non-zero
         only for fixed cost contributions."""
+        from aequilibrae.paths.AoN import sum_a_times_b_minus_c # Delay import
+
         class_specific_term = 0.0
         for c in self.traffic_classes:
             # fixed cost is scaled by vot

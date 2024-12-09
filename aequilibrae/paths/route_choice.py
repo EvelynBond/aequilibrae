@@ -16,7 +16,6 @@ import scipy
 from aequilibrae.context import get_active_project
 from aequilibrae.matrix import AequilibraeMatrix
 from aequilibrae.paths.graph import Graph, _get_graph_to_network_mapping
-from aequilibrae.paths.cython.route_choice_set import RouteChoiceSet
 from aequilibrae.matrix.coo_demand import GeneralisedCOODemand
 
 
@@ -65,7 +64,8 @@ class RouteChoice:
         self.sl_link_loading = True
 
     @cached_property
-    def __rc(self) -> RouteChoiceSet:
+    def __rc(self) -> 'RouteChoiceSet':
+        from aequilibrae.paths.cython.route_choice_set import RouteChoiceSet # Delay import
         return RouteChoiceSet(self.graph)
 
     def __init_demand(self):

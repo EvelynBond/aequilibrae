@@ -1,5 +1,3 @@
-from aequilibrae.paths.AoN import bpr, delta_bpr, bpr2, delta_bpr2, conical, delta_conical, inrets, delta_inrets
-
 all_vdf_functions = ["bpr", "bpr2", "conical", "inrets"]
 
 
@@ -22,6 +20,9 @@ class VDF:
         self.__dict__["apply_derivative"] = None
 
     def __setattr__(self, instance, value) -> None:
+        # Delay import
+        from aequilibrae.paths.AoN import bpr, delta_bpr, bpr2, delta_bpr2, conical, delta_conical, inrets, delta_inrets
+
         if instance == "function":
             value = value.upper()
             self.__dict__[instance] = value

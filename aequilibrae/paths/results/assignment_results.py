@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 import pandas as pd
-from aequilibrae.paths.AoN import sum_axis1, assign_link_loads
 
 from aequilibrae.matrix import AequilibraeMatrix
 from aequilibrae.parameters import Parameters
@@ -229,6 +228,8 @@ class AssignmentResults(AssignmentResultsBase):
 
         Results are placed into *total_link_loads* class member
         """
+        from aequilibrae.paths.AoN import sum_axis1 # Delay import
+
         sum_axis1(self.total_link_loads, self.link_loads, self.cores)
 
     def get_graph_to_network_mapping(self):
@@ -264,6 +265,8 @@ class AssignmentResults(AssignmentResultsBase):
         return pd.DataFrame(aux, index=np.unique(self.lids))
 
     def get_sl_results(self) -> pd.DataFrame:
+        from aequilibrae.paths.AoN import assign_link_loads # Delay import
+
         # Set up the name for each column. Each set of select links has a column for ab, ba, total flows
         # for each subclass contained in the TrafficClass
         fields = [
