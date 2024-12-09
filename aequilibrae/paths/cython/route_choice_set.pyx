@@ -20,7 +20,6 @@ from libcpp.memory cimport shared_ptr
 from typing import Tuple
 
 import numpy as np
-import pyarrow as pa
 import pandas as pd
 
 
@@ -132,6 +131,8 @@ cdef class RouteChoiceSet:
         :Returns: **route set** (:obj:`list[tuple[int, ...]]): Returns a list of unique variable length tuples of
             link IDs. Represents paths from ``origin`` to ``destination``.
         """
+        import pyarrow as pa # Delay import
+
         df = pd.DataFrame({
             "origin id": [origin],
             "destination id": [destination],
@@ -197,6 +198,8 @@ cdef class RouteChoiceSet:
             **penalty** (:obj:`float`): Penalty to use for Link Penalisation and BFSLE with LP.
             **where** (:obj:`str`): Optional file path to save results to immediately. Will return None.
         """
+        import pyarrow as pa # Delay import
+
         cdef:
             long long origin, dest
             size_t i

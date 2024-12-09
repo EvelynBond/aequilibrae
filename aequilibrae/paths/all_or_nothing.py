@@ -2,7 +2,6 @@ import threading
 from multiprocessing.dummy import Pool as ThreadPool
 
 import numpy as np
-from aequilibrae.paths.AoN import one_to_all, assign_link_loads
 
 from aequilibrae.matrix import AequilibraeMatrix
 from aequilibrae.utils.aeq_signal import SIGNAL
@@ -44,6 +43,8 @@ class allOrNothing(WorkerThread):
         self.execute()
 
     def execute(self):
+        from aequilibrae.paths.AoN import assign_link_loads # Delay import
+
         msg = f"All-or-Nothing - Traffic Class: {self.class_name} - Zones: 0/{self.matrix.zones}"
         self.signal.emit(["set_text", msg])
         self.report = []
@@ -74,6 +75,8 @@ class allOrNothing(WorkerThread):
         )
 
     def func_assig_thread(self, origin, all_threads):
+        from aequilibrae.paths.AoN import one_to_all # Delay import
+
         thread_id = threading.get_ident()
         th = all_threads.get(thread_id, all_threads["count"])
         if th == all_threads["count"]:

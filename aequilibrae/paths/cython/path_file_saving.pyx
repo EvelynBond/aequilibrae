@@ -18,7 +18,7 @@ np.import_array()
 
 @cython.wraparound(False)
 @cython.embedsignature(True)
-@cython.boundscheck(False) # turn of bounds-checking for entire function
+@cython.boundscheck(False) # turn off bounds-checking for entire function
 cpdef void save_path_file(long origin_index,
                           long num_links,
                           long zones,

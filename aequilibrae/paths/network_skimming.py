@@ -5,8 +5,6 @@ from datetime import datetime
 from multiprocessing.dummy import Pool as ThreadPool
 from uuid import uuid4
 
-from aequilibrae.paths.AoN import skimming_single_origin
-
 from aequilibrae.context import get_active_project
 from aequilibrae.paths.multi_threaded_skimming import MultiThreadedNetworkSkimming
 from aequilibrae.paths.results.skim_results import SkimResults
@@ -134,6 +132,8 @@ class NetworkSkimming(WorkerThread):
         record.save()
 
     def __func_skim_thread(self, origin, all_threads):
+        from aequilibrae.paths.AoN import skimming_single_origin # Delay import
+
         if threading.get_ident() in all_threads:
             th = all_threads[threading.get_ident()]
         else:

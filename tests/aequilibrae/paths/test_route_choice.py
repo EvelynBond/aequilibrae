@@ -8,7 +8,6 @@ from tempfile import gettempdir
 from unittest import TestCase, skip
 import pandas as pd
 import numpy as np
-import pyarrow as pa
 from typing import List, Tuple
 
 from aequilibrae import Project
@@ -159,6 +158,8 @@ class TestRouteChoiceSet(TestCase):
                     rc.run(a, b, self.shape, max_routes=max_routes, max_depth=max_depth)
 
     def test_round_trip(self):
+        import pyarrow as pa # Delay import
+
         np.random.seed(1000)
         rc = RouteChoiceSet(self.graph)
         nodes = [tuple(x) for x in np.random.choice(self.graph.centroids, size=(10, 2), replace=False)]

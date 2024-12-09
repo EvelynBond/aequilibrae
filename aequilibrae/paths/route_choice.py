@@ -12,8 +12,6 @@ from functools import cached_property
 
 import numpy as np
 import pandas as pd
-import pyarrow as pa
-import pyarrow.dataset
 import scipy
 from aequilibrae.context import get_active_project
 from aequilibrae.matrix import AequilibraeMatrix
@@ -330,7 +328,7 @@ class RouteChoice:
         self.logger.info("Route Choice specification")
         self.logger.info(self._config)
 
-    def get_results(self) -> Union[pa.Table, pa.dataset.Dataset]:
+    def get_results(self) -> Union['pyarrow.Table', 'pyarrow.dataset.Dataset']:
         """Returns the results of the route choice procedure
 
         Returns a table of OD pairs to lists of link IDs for each OD pair provided (as columns).
@@ -340,7 +338,7 @@ class RouteChoice:
         dataset.
 
         :Returns:
-            **results** (:obj:`pa.Table`): Table with the results of the route choice procedure
+            **results** (:obj:`pyarrow.Table`): Table with the results of the route choice procedure
         """
         if self.where is None:
             results = self.__rc.get_results()

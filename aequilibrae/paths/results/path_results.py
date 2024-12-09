@@ -1,7 +1,6 @@
 from typing import Union, List
 
 import numpy as np
-from aequilibrae.paths.AoN import update_path_trace, path_computation, HEURISTIC_MAP
 
 from aequilibrae.paths.graph import Graph
 
@@ -89,6 +88,7 @@ class PathResults:
 
             **heuristic** (:obj:`str`): Heuristic to use if ``a_star`` is enabled. Default is ``None``.
         """
+        from aequilibrae.paths.AoN import path_computation # Delay import
 
         if self.graph is None:
             raise Exception("You need to set graph skimming before you compute a path")
@@ -174,6 +174,8 @@ class PathResults:
         :Arguments:
             **destination** (:obj:`int`): ID of the node we are computing the path too
         """
+        from aequilibrae.paths.AoN import update_path_trace # Delay import
+        
         if not isinstance(destination, int):
             raise TypeError("destination needs to be an integer")
 
@@ -189,6 +191,8 @@ class PathResults:
         :Arguments:
             **heuristic** (:obj:`str`): Heuristic to use in A*.
         """
+        from aequilibrae.paths.AoN import HEURISTIC_MAP # Delay import
+
         if heuristic not in HEURISTIC_MAP.keys():
             raise ValueError(f"heruistic must be one of {self.get_heuristics()}")
 
@@ -196,4 +200,6 @@ class PathResults:
 
     def get_heuristics(self) -> List[str]:
         """Return the availiable heuristics."""
+        from aequilibrae.paths.AoN import HEURISTIC_MAP # Delay import
+
         return list(HEURISTIC_MAP.keys())
